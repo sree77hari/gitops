@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: myapp
-        image: ABCD:101
+        image: quay.io/andubey/ocp-pipeline:1
         ports:
         - containerPort: 8080
