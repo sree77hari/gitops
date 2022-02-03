@@ -2,7 +2,6 @@ kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
   name: ocp-cicd
-  namespace: native-app
   labels:
     app: ocp-cicd
 spec:
