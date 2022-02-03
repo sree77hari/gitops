@@ -1,0 +1,10 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: Trigger
+metadata:
+  name: my-pipeline-trigger
+spec:
+  serviceAccountName: pipeline-run-sa
+  bindings:
+    - ref: my-pipeline-trigger-binding
+  template:
+    ref: my-pipeline-trigger-template

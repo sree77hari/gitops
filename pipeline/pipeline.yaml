@@ -1,0 +1,75 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: my-pipeline
+spec:
+  workspaces:
+  - name: shared-workspace
+  - name: maven-settings
+  - name: gitops-workspace
+  params:
+  - name: git-url
+    type: string
+    description: url of the git repo for the code of deployment
+  - name: git-revision
+    type: string
+    description: revision to be used from repo of the code for deployment
+  - name: img-tag
+    type: string
+    description: img-tag
+
+  tasks:
+
+  - name: fetch-repository
+    taskRef:
+      name: git-clone
+      kind: ClusterTask
+    workspaces:
+    - name: output
+      workspace: shared-workspace
+    params:
+    - name: url
+      value: $(params.git-url)
+    - name: revision
+      value: $(params.git-revision)
+
+  - name: maven-build
+    runAfter:
+        - fetch-repository
+    taskRef:
+      kind: ClusterTask
+      name: maven
+    workspaces:
+    - name: source
+      workspace: shared-workspace
+    - name: maven-settings
+      workspace: maven-settings
+
+  - name: buildah-img-build
+    runAfter:
+        - maven-build
+    taskRef:
+      kind: ClusterTask
+      name: buildah
+    params:
+    - name: IMAGE
+      value: 'quay.io/andubey/ocp-pipeline:$(params.img-tag)'
+    workspaces:
+    - name: source
+      workspace: shared-workspace
+
+  - name: gitops-task
+    runAfter:
+        - buildah-img-build
+    taskRef:
+      name: gitops-task
+    params:
+    - name: configGitUrl
+      value: 'https://github.com/Ankit07D/gitops.git'
+    - name: environment
+      value: 'dev'
+    - name: imageName
+      value: 'quay.io/andubey/ocp-pipeline:$(params.img-tag)'
+    workspaces:
+    - name: gitops-workspace
+      workspace: gitops-workspace

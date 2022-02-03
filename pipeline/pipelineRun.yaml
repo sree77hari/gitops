@@ -1,0 +1,26 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: ci-pipelinerun
+  namespace: ocp-pipeline
+spec:
+  pipelineRef:
+    name: my-pipeline
+  serviceAccountName: pipeline-run-sa
+  params:
+    - name: git-url
+      value: 'https://github.com/Ankit07D/ocp-cicd'
+    - name: git-revision
+      value: 'main'
+    - name: img-tag
+      value: '100'
+  workspaces:
+    - name: shared-workspace
+      persistentVolumeClaim:
+        claimName: pipeline-pvc
+    - name: maven-settings
+      persistentVolumeClaim:
+        claimName: pipeline-pvc-mvn
+    - name: gitops-workspace
+      persistentVolumeClaim:
+        claimName: pipeline-pvc-gitops

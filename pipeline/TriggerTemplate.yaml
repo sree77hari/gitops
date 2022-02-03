@@ -1,0 +1,39 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: my-pipeline-trigger-template
+spec:
+  params:
+  - name: git-url
+    description: The git repository url
+  - name: git-revision
+    description: The git revision
+  - name: img-tag
+    description: The name of the deployment to be created / patched
+
+  resourcetemplates:
+  - apiVersion: tekton.dev/v1beta1
+    kind: PipelineRun
+    metadata:
+      generateName: build-deploy-$(tt.params.img-tag)-
+    spec:
+      serviceAccountName: pipeline-run-sa
+      pipelineRef:
+        name: my-pipeline
+      params:
+      - name: git-url
+        value: $(tt.params.git-url)
+      - name: git-revision
+        value: $(tt.params.git-revision)
+      - name: img-tag
+        value: $(tt.params.img-tag)
+      workspaces:
+        - name: shared-workspace
+          persistentVolumeClaim:
+            claimName: pipeline-pvc
+        - name: maven-settings
+          persistentVolumeClaim:
+            claimName: pipeline-pvc-mvn
+        - name: gitops-workspace
+          persistentVolumeClaim:
+            claimName: pipeline-pvc-gitops        

@@ -1,0 +1,8 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: my-pipeline-event-listener
+spec:
+  serviceAccountName: pipeline-run-sa
+  triggers:
+    - triggerRef: my-pipeline-trigger
