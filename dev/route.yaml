@@ -1,0 +1,16 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: ocp-cicd
+  namespace: native-app
+  labels:
+    app: ocp-cicd
+spec:
+  host: ocp-cicd-native-app.apps.cluster-da6c.da6c.example.opentlc.com
+  to:
+    kind: Service
+    name: ocp-cicd
+    weight: 100
+  port:
+    targetPort: 8080-tcp
+  wildcardPolicy: None
