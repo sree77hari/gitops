@@ -4,7 +4,7 @@ metadata:
   name: myapp-argo-application1
   namespace: openshift-gitops
 spec:
-  project: default100
+  project: default
 
   source:
     repoURL: https://github.com/sree77hari/gitops.git
