@@ -7,7 +7,7 @@ spec:
   project: default100
 
   source:
-    repoURL: https://github.com/Ankit07D/gitops
+    repoURL: https://github.com/sree77hari/gitops.git
     targetRevision: HEAD
     path: dev
   destination: 
