@@ -19,8 +19,8 @@ spec:
       #!/usr/bin/env sh
       set -e
 
-      git config --global user.email "andubey@redhat.com"
-      git config --global user.name "Ankit Dubey"
+      git config --global user.email "sree77hari@gmail.com"
+      git config --global user.name "sree77hari"
 
       rm -rf gitops
       git clone -b main $(inputs.params.configGitUrl) gitops
