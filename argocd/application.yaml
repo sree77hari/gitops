@@ -5,19 +5,16 @@ metadata:
   namespace: openshift-gitops
 spec:
   project: default
-
   source:
     repoURL: https://github.com/sree77hari/gitops.git
     targetRevision: HEAD
     path: dev
   destination: 
     server: https://kubernetes.default.svc
-    namespace: myapp1
-
+    namespace: myapp
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
-
     automated:
       selfHeal: true
       prune: true
