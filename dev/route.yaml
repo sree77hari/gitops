@@ -3,7 +3,6 @@ apiVersion: route.openshift.io/v1
 metadata:
   name: myapp-route
 spec:
-  host: myapp.apps.cluster-da6c.da6c.example.opentlc.com
   to:
     kind: Service
     name: myapp-service
