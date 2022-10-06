@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: myapp
-        image: quay.io/srereddy/sample:myappv7
+        image: quay.io/srereddy/sample:myappv111
         ports:
         - containerPort: 8080
